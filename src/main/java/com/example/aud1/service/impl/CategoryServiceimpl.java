@@ -1,7 +1,8 @@
 package com.example.aud1.service.impl;
 
 import com.example.aud1.model.Category;
-import com.example.aud1.repository.InMemoryCategoryRepository;
+import com.example.aud1.repository.impl.InMemoryCategoryRepository;
+import com.example.aud1.repository.jpa.CategoryRepository;
 import com.example.aud1.service.CategoryService;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,10 @@ import java.util.List;
 @Service
 public class CategoryServiceimpl implements CategoryService {
 
-    private final InMemoryCategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
 
-    public CategoryServiceimpl(InMemoryCategoryRepository categoryRepository) {
+    public CategoryServiceimpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 
@@ -48,7 +49,7 @@ public class CategoryServiceimpl implements CategoryService {
            throw new IllegalArgumentException();
        }
 
-       categoryRepository.delete(name);
+       categoryRepository.deleteByName(name);
 
 
     }
@@ -60,6 +61,6 @@ public class CategoryServiceimpl implements CategoryService {
 
     @Override
     public List<Category> searchCategories(String text) {
-        return categoryRepository.search(text);
+        return categoryRepository.findAllByNameLike(text);
     }
 }

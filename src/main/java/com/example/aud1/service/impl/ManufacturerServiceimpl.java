@@ -1,7 +1,8 @@
 package com.example.aud1.service.impl;
 
 import com.example.aud1.model.Manufacturer;
-import com.example.aud1.repository.InMemoryManufacturerRepository;
+import com.example.aud1.repository.impl.InMemoryManufacturerRepository;
+import com.example.aud1.repository.jpa.ManufacturerRepository;
 import com.example.aud1.service.ManufacturerService;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,9 @@ import java.util.Optional;
 
 @Service
 public class ManufacturerServiceimpl implements ManufacturerService {
-    private final InMemoryManufacturerRepository manufacturerRepository;
+    private final ManufacturerRepository manufacturerRepository;
 
-    public ManufacturerServiceimpl(InMemoryManufacturerRepository manufacturerRepository) {
+    public ManufacturerServiceimpl(ManufacturerRepository manufacturerRepository) {
         this.manufacturerRepository = manufacturerRepository;
     }
 
@@ -25,4 +26,7 @@ public class ManufacturerServiceimpl implements ManufacturerService {
     public Optional<Manufacturer> findById(Long id) {
         return manufacturerRepository.findById(id);
     }
+
+    @Override
+    public void deleteById(Long id){ this.manufacturerRepository.deleteById(id);}
 }

@@ -9,4 +9,6 @@ public interface ManufacturerService {
 
     List<Manufacturer> findAll();
     Optional<Manufacturer> findById(Long id);
+
+    void deleteById(Long id);
 }

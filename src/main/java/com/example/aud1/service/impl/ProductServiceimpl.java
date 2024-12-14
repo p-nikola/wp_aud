@@ -5,10 +5,14 @@ import com.example.aud1.model.Manufacturer;
 import com.example.aud1.model.Product;
 import com.example.aud1.model.exceptions.CategoryNotFoundException;
 import com.example.aud1.model.exceptions.ManufacturerNotFoundException;
-import com.example.aud1.repository.InMemoryCategoryRepository;
-import com.example.aud1.repository.InMemoryManufacturerRepository;
-import com.example.aud1.repository.InMemoryProductRepository;
+import com.example.aud1.repository.impl.InMemoryCategoryRepository;
+import com.example.aud1.repository.impl.InMemoryManufacturerRepository;
+import com.example.aud1.repository.impl.InMemoryProductRepository;
+import com.example.aud1.repository.jpa.CategoryRepository;
+import com.example.aud1.repository.jpa.ManufacturerRepository;
+import com.example.aud1.repository.jpa.ProductRepository;
 import com.example.aud1.service.ProductService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,11 +22,11 @@ import java.util.Optional;
 public class ProductServiceimpl implements ProductService {
 
 
-    private final InMemoryProductRepository productRepository;
-    private final InMemoryCategoryRepository categoryRepository;
-    private final InMemoryManufacturerRepository manufacturerRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final ManufacturerRepository manufacturerRepository;
 
-    public ProductServiceimpl(InMemoryProductRepository productRepository, InMemoryCategoryRepository categoryRepository, InMemoryManufacturerRepository manufacturerRepository) {
+    public ProductServiceimpl(ProductRepository productRepository, CategoryRepository categoryRepository, ManufacturerRepository manufacturerRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.manufacturerRepository = manufacturerRepository;
@@ -44,12 +48,15 @@ public class ProductServiceimpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Optional<Product> save(String name, Double price, Integer quantity, Long categoryId, Long manufacturerId) {
         Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryNotFoundException(categoryId));
         Manufacturer manufacturer = manufacturerRepository.findById(manufacturerId).orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
 
+        this.productRepository.deleteByName(name);
 
-        return this.productRepository.save(name, price, quantity, category, manufacturer);
+
+        return Optional.of(this.productRepository.save(new Product(name, price, quantity, category, manufacturer)));
 
     }
 

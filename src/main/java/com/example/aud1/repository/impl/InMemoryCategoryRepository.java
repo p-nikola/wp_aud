@@ -1,4 +1,4 @@
-package com.example.aud1.repository;
+package com.example.aud1.repository.impl;
 
 
 import com.example.aud1.bootstrap.DataHolder;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class InMemoryCategoryRepository {
+public class  InMemoryCategoryRepository {
 
     public List<Category> findAll() {
         return DataHolder.categories;

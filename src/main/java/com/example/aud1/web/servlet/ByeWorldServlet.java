@@ -20,4 +20,9 @@ public class ByeWorldServlet  extends HttpServlet {
 
 
     }
+
+    @Override
+    public void destroy() {
+        System.out.println("Bye servlet is destroyed!");
+    }
 }
