@@ -7,6 +7,7 @@ import com.example.aud1.model.Product;
 import com.example.aud1.service.CategoryService;
 import com.example.aud1.service.ManufacturerService;
 import com.example.aud1.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -37,8 +38,10 @@ public class ProductController {
         List<Product> products = productService.findAll();
 
         model.addAttribute("products", products);
+        model.addAttribute("bodyContent", "products");
 
-        return "products";
+
+        return "master-template";
 
     }
 
@@ -50,14 +53,16 @@ public class ProductController {
     }
 
     @GetMapping("/add-form")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addProductPage(Model model) {
         List<Category> categories = this.categoryService.listCategories();
         List<Manufacturer> manufacturers = this.manufacturerService.findAll();
 
         model.addAttribute("categories", categories);
         model.addAttribute("manufacturers", manufacturers);
+        model.addAttribute("bodyContent","add-product");
 
-        return "add-product";
+        return "master-template";
     }
 
 
@@ -73,8 +78,9 @@ public class ProductController {
             model.addAttribute("categories", categories);
             model.addAttribute("manufacturers", manufacturers);
             model.addAttribute("product", product);
+            model.addAttribute("bodyContent","add-product");
 
-            return "add-product";
+            return "master-template";
 
         }
 

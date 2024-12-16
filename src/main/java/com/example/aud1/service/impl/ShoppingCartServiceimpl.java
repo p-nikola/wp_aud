@@ -34,7 +34,7 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 
     @Override
     public List<Product> listAllProductsInShoppingCart(Long cardId) {
-        if (!this.shoppingCartRepository.findById(cardId).isPresent()) {
+        if (this.shoppingCartRepository.findById(cardId).isEmpty()) {
             throw new ShoppingCartNotFoundException(cardId);
         }
         return shoppingCartRepository.findById(cardId).get().getProducts();
@@ -42,9 +42,9 @@ public class ShoppingCartServiceimpl implements ShoppingCartService {
 
     @Override
     public ShoppingCart getActiveShoppingCart(String username) {
-
-        User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
-       return this.shoppingCartRepository.findByUserAndStatus(user,ShoppingCartStatus.CREATED).orElseGet(()->{
+        //User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
+       return this.shoppingCartRepository.findByUserNameAndStatus(username,ShoppingCartStatus.CREATED).orElseGet(()->{
+           User user = userRepository.findByUsername(username).orElseThrow(() -> new UserNotFoundException(username));
             ShoppingCart cart = new ShoppingCart(user);
             return this.shoppingCartRepository.save(cart);
         });

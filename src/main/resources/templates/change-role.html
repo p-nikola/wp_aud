@@ -1,0 +1,32 @@
+<th:block xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div class="container">
+
+    <div th:if="${param.success}" class="alert alert-success">
+        Role updated successfully!
+    </div>
+    <div th:if="${param.error}" class="alert alert-danger">
+        <p th:text="${param.error}">Error message</p>
+    </div>
+
+
+    <h1>Change User Roles</h1>
+    <form th:action="@{/change-role}" th:method="post">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="role">New Role:</label>
+            <select id="role" name="role" required>
+                <option value="USER">USER</option>
+                <option value="ADMIN">ADMIN</option>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Role</button>
+    </form>
+</div>
+</body>
+</html>
+
+</th:block>
