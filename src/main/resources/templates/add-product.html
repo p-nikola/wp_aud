@@ -38,20 +38,22 @@
                     </div>
                     <div class="form-group">
                         <label >Category</label>
-                        <select name="category" class="form-control">
-                            <option  th:if="${product} != null"
-                                     th:each="cat : ${categories}"
-                                     th:selected="${product.getCategory() != null && product.getCategory().getId() == cat.getId()}"
-                                     th:text="${cat.getName()}"
-                                     th:value="${cat.getId()}">
-                            </option>
+                        <label>
+                            <select name="category" class="form-control">
+                                <option  th:if="${product} != null"
+                                         th:each="cat : ${categories}"
+                                         th:selected="${product.getCategory() != null && product.getCategory().getId() == cat.getId()}"
+                                         th:text="${cat.getName()}"
+                                         th:value="${cat.getId()}">
+                                </option>
 
-                            <option  th:if="${product} == null"
-                                     th:each="cat : ${categories}"
-                                     th:text="${cat.getName()}"
-                                     th:value="${cat.getId()}">
-                            </option>
-                        </select>
+                                <option  th:if="${product} == null"
+                                         th:each="cat : ${categories}"
+                                         th:text="${cat.getName()}"
+                                         th:value="${cat.getId()}">
+                                </option>
+                            </select>
+                        </label>
                     </div>
 
                     <div class="form-group">
